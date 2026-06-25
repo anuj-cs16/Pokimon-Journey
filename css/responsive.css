@@ -1,0 +1,190 @@
+/* ============================================================
+ * responsive.css — Mobile / Tablet / Desktop Breakpoints
+ * ============================================================ */
+
+/* ── Tablet (< 1024px) ── */
+@media (max-width: 1024px) {
+  #region-panel {
+    width: 380px;
+  }
+
+  #progress-container {
+    top: var(--space-md);
+    right: var(--space-md);
+  }
+
+  #progress-bar-outer {
+    width: 140px;
+  }
+
+  .node-icon {
+    font-size: 18px;
+  }
+
+  .node-label {
+    font-size: 8px;
+  }
+}
+
+/* ── Mobile (< 768px) ── */
+@media (max-width: 768px) {
+  /* Region panel becomes full-width bottom sheet */
+  #region-panel {
+    width: 100vw;
+    max-width: 100vw;
+    height: 75vh;
+    top: auto;
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: 1px solid var(--border-glow);
+    border-radius: 20px 20px 0 0;
+    transform: translateY(100%);
+    padding-top: var(--space-lg);
+  }
+
+  #region-panel.open {
+    transform: translateY(0);
+  }
+
+  /* Add handle for mobile */
+  #region-panel::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+  }
+
+  /* Mini-nav hidden on mobile */
+  #mini-nav {
+    display: none;
+  }
+
+  /* Progress bar moves to center-top */
+  #progress-container {
+    right: 50%;
+    transform: translateX(50%);
+    align-items: center;
+  }
+
+  #progress-bar-outer {
+    width: 120px;
+    height: 6px;
+  }
+
+  #progress-label {
+    font-size: 8px;
+  }
+
+  #progress-percent {
+    font-size: 10px;
+  }
+
+  /* Title overlay */
+  #title-overlay h1 {
+    font-size: 14px;
+    padding: 0 var(--space-md);
+  }
+
+  #title-overlay .subtitle {
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+
+  /* Path card full width */
+  #path-card {
+    width: 100vw;
+    max-width: 100vw;
+    border-radius: 16px 16px 0 0;
+    padding: var(--space-md);
+  }
+
+  .path-card-header {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .path-card-header .travel-method {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  /* Smaller node icons */
+  .node-icon {
+    font-size: 16px;
+  }
+
+  .node-label {
+    font-size: 7px;
+  }
+
+  /* Friend tooltip centered at bottom */
+  #friend-tooltip {
+    left: 50% !important;
+    transform: translateX(-50%) translateY(8px);
+    bottom: 20px;
+    top: auto !important;
+    width: 280px;
+  }
+
+  #friend-tooltip.visible {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* Pokemon grid smaller */
+  .pokemon-card {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .badge-item {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+}
+
+/* ── Small Mobile (< 480px) ── */
+@media (max-width: 480px) {
+  #region-panel {
+    height: 80vh;
+    padding: var(--space-lg) var(--space-md) var(--space-md);
+  }
+
+  .panel-header h2 {
+    font-size: 13px;
+  }
+
+  .panel-section-title {
+    font-size: 7px;
+  }
+
+  .companion-avatar {
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+  }
+
+  #progress-bar-outer {
+    width: 100px;
+  }
+}
+
+/* ── Large Desktop (> 1440px) ── */
+@media (min-width: 1440px) {
+  #region-panel {
+    width: 480px;
+  }
+
+  .panel-header h2 {
+    font-size: 18px;
+  }
+
+  #progress-bar-outer {
+    width: 220px;
+  }
+}
