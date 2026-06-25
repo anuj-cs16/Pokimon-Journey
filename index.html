@@ -35,7 +35,6 @@
 
   <!-- ═══ LOADER OVERLAY ═══ -->
   <div id="loader-overlay">
-    <!-- ... Loader content remains the same ... -->
     <div class="loader-bg-glow"></div>
     <div class="loader-shockwave" id="shockwave-1"></div>
     <div class="loader-shockwave" id="shockwave-2" style="animation-delay: 1s"></div>
@@ -67,8 +66,7 @@
   <div id="visual-container">
     <canvas id="particles-canvas"></canvas>
     
-    <svg id="journey-map" xmlns="http://www.w3.org/2000/svg" viewBox="-4000 -4000 10000 10000" preserveAspectRatio="xMidYMid meet">
-      <!-- We will manage the viewBox dynamically in JS -->
+    <svg id="journey-map" xmlns="http://www.w3.org/2000/svg" viewBox="-500 -500 3000 3000" preserveAspectRatio="xMidYMid meet">
       <defs>
         <filter id="node-glow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
@@ -78,14 +76,22 @@
           <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur" />
           <feComposite in="blur" in2="SourceGraphic" operator="over" />
         </filter>
+        <filter id="path-blur" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" />
+        </filter>
       </defs>
 
       <g id="map-container">
-        <!-- Z-Index layers -->
+        <!-- Z-Index layers in render order -->
         <g id="regions-layer"></g>
         <g id="paths-layer"></g>
+        <g id="sub-map-layer"></g>
+        <g id="friends-layer"></g>
+        <g id="nodes-layer"></g>
         <g id="cities-layer"></g>
         <g id="pois-layer"></g>
+
+        <!-- Ash + Pikachu animated marker -->
         <g id="ash-marker" transform="translate(0, 0)">
           <circle class="ash-marker-glow" r="20" fill="#FFD700" opacity="0.3" />
           <circle class="ash-marker-body" r="10" fill="#FFB300" stroke="#fff" stroke-width="2" />
@@ -95,6 +101,9 @@
     </svg>
   </div>
 
+  <!-- ═══ SCROLL RUNWAY (tall invisible div for ScrollTrigger) ═══ -->
+  <div id="scroll-runway"></div>
+
   <!-- ═══ TITLE OVERLAY ═══ -->
   <div id="title-overlay">
     <h1>ASH KETCHUM'S<br>POKÉMON JOURNEY</h1>
@@ -102,11 +111,23 @@
     <p class="scroll-hint">↓ Scroll to begin the journey ↓</p>
   </div>
 
+  <!-- ═══ JOURNEY PROGRESS BAR ═══ -->
+  <div id="progress-container">
+    <div id="progress-label">Journey Progress</div>
+    <div id="progress-bar-outer">
+      <div id="progress-bar-fill"></div>
+    </div>
+    <div id="progress-percent">0%</div>
+  </div>
+
+  <!-- ═══ MINI NAVIGATION DOTS (Left Sidebar) ═══ -->
+  <nav id="mini-nav" aria-label="Jump to region"></nav>
+
   <!-- ═══ MAP UI CONTROLS ═══ -->
   <div id="map-ui">
     <!-- Breadcrumbs -->
     <div id="breadcrumb-nav">
-      <button class="crumb" data-target="world">World</button>
+      <button class="crumb active" data-target="world">World</button>
     </div>
     
     <!-- Zoom Controls -->

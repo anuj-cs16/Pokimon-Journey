@@ -20,11 +20,9 @@ export class ScrollManager {
       return;
     }
 
-    // SVG viewBox defaults
-    this.defaultViewBox = { x: 0, y: 0, w: 2000, h: window.innerHeight * (2000 / window.innerWidth) };
-    if (window.innerWidth < 768) {
-       this.defaultViewBox.h = window.innerHeight * (2000 / window.innerWidth);
-    }
+    // SVG viewBox defaults — wide enough to see the map
+    this.defaultViewBox = { x: 300, y: 200, w: 1400, h: 1400 * (window.innerHeight / window.innerWidth) };
+    this.currentViewBox = { ...this.defaultViewBox };
 
     this.initRunway();
     this.setupScrollTrigger();
@@ -46,21 +44,20 @@ export class ScrollManager {
   setupScrollTrigger() {
     // 1. Camera follow Ash (adjusting viewBox)
     const updateCamera = (point) => {
-      // Calculate view window centered on Ash
-      const viewW = this.defaultViewBox.w;
-      const viewH = this.defaultViewBox.h;
+      const viewW = this.currentViewBox.w;
+      const viewH = this.currentViewBox.h;
       
       // Look ahead slightly based on scroll direction
-      const lookAheadY = 200; 
+      const lookAheadY = 100; 
       
       let targetX = point.x - viewW / 2;
       let targetY = point.y - viewH / 2 + lookAheadY;
 
-      // Clamp to SVG bounds
-      targetX = Math.max(0, Math.min(targetX, 2000 - viewW));
-      targetY = Math.max(0, Math.min(targetY, 10800 - viewH));
+      // Clamp to SVG bounds (nodes span x:400-1600, y:400-7100)
+      targetX = Math.max(-200, Math.min(targetX, 1800 - viewW));
+      targetY = Math.max(-200, Math.min(targetY, 7500 - viewH));
 
-      // Only update if we're not zoomed in
+      // Only update if we're not zoomed in to a node
       if (!this.svg.classList.contains('zoomed')) {
         gsap.to(this.svg, {
           attr: { viewBox: `${targetX} ${targetY} ${viewW} ${viewH}` },
@@ -248,18 +245,39 @@ export class ScrollManager {
     });
   }
 
+  // Adjust zoom by changing the viewBox width (delta > 0 zooms out, delta < 0 zooms in)
+  adjustZoom(delta) {
+    const minW = 600;
+    const maxW = 3000;
+    const newW = Math.max(minW, Math.min(maxW, this.currentViewBox.w + delta));
+    const newH = newW * (window.innerHeight / window.innerWidth);
+    this.currentViewBox.w = newW;
+    this.currentViewBox.h = newH;
+
+    if (!this.svg.classList.contains('zoomed')) {
+      // Get current viewBox center and re-center
+      const vb = this.svg.viewBox.baseVal;
+      const cx = vb.x + vb.width / 2;
+      const cy = vb.y + vb.height / 2;
+      gsap.to(this.svg, {
+        attr: { viewBox: `${cx - newW/2} ${cy - newH/2} ${newW} ${newH}` },
+        duration: 0.4,
+        ease: 'power2.out'
+      });
+    }
+  }
+
   // Reset zoom back to Ash tracking
   resetZoom() {
     this.svg.classList.remove('zoomed');
+    this.currentViewBox = { ...this.defaultViewBox };
     const zoomedTarget = document.querySelector('.zoomed-target');
     if (zoomedTarget) zoomedTarget.classList.remove('zoomed-target');
 
     // Force an update on the timeline to snap camera back
-    // by slightly nudging the proxy
     const st = this.mainTimeline.scrollTrigger;
     if (st) {
        st.update(); 
-       // The onUpdate in mainTimeline will fire and call updateCamera
     }
   }
 }

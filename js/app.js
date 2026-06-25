@@ -97,7 +97,6 @@ class App {
     const closeBtn = document.getElementById('close-journey-btn');
     if (closeBtn) {
       closeBtn.addEventListener('click', () => {
-        // Scroll to top first to ensure center suction looks right
         gsap.to(window, {
           scrollTo: { y: 0 },
           duration: 0.5,
@@ -106,6 +105,21 @@ class App {
           }
         });
       });
+    }
+
+    // Zoom Controls
+    const zoomIn  = document.getElementById('zoom-in');
+    const zoomOut = document.getElementById('zoom-out');
+    const zoomReset = document.getElementById('zoom-reset');
+
+    if (zoomIn) {
+      zoomIn.addEventListener('click', () => this.scroll.adjustZoom(-200));
+    }
+    if (zoomOut) {
+      zoomOut.addEventListener('click', () => this.scroll.adjustZoom(200));
+    }
+    if (zoomReset) {
+      zoomReset.addEventListener('click', () => this.scroll.resetZoom());
     }
   }
 

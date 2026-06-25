@@ -26,9 +26,12 @@ export class LoaderSequence {
     this.titleOverlay = document.getElementById('title-overlay');
     this.progressContainer = document.getElementById('progress-container');
     this.miniNav = document.getElementById('mini-nav');
+    this.progressBarFill = document.getElementById('progress-bar-fill');
+    this.progressPercent = document.getElementById('progress-percent');
 
-    // Initially hide map elements
-    gsap.set([this.mapSvg, this.titleOverlay, this.progressContainer, this.miniNav], { opacity: 0 });
+    // Initially hide map elements (guard for elements that may not exist yet)
+    const elemsToHide = [this.mapSvg, this.titleOverlay, this.progressContainer, this.miniNav].filter(Boolean);
+    if (elemsToHide.length) gsap.set(elemsToHide, { opacity: 0 });
     
     this.particleInterval = null;
     this.initLoadingPhase();
