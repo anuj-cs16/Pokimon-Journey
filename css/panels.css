@@ -86,7 +86,27 @@
   font-family: var(--font-body);
   font-size: 13px;
   color: var(--text-secondary);
-  font-weight: 300;
+  margin-top: 4px;
+}
+
+.region-pokedex-btn {
+  margin-top: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: var(--font-retro);
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.region-pokedex-btn:hover {
+  background: var(--panel-accent);
+  color: black;
+  box-shadow: 0 4px 15px var(--panel-accent);
 }
 
 .panel-section {

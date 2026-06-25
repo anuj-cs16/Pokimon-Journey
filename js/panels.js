@@ -44,6 +44,7 @@ export class PanelManager {
         <div class="region-icon" style="color: ${theme.neon}">${node.icon}</div>
         <h2>${node.name.toUpperCase()}</h2>
         <div class="region-subtitle">${node.subtitle}</div>
+        <button class="region-pokedex-btn" data-region="${node.name}">View Regional Pokédex</button>
       </div>
     `;
 
@@ -163,6 +164,18 @@ export class PanelManager {
 
     this.panelContent.innerHTML = html;
     
+    // Bind Pokédex button
+    const pokedexBtn = this.panelContent.querySelector('.region-pokedex-btn');
+    if (pokedexBtn) {
+      pokedexBtn.addEventListener('click', (e) => {
+        const region = e.target.dataset.region;
+        if (window.pokemonApp && window.pokemonApp.pokedex) {
+          window.pokemonApp.pokedex.open(region);
+          this.closeAll(); // Close the region panel
+        }
+      });
+    }
+
     // Bind type filter events
     const grid = document.getElementById('region-pokemon-grid');
     if (grid) {

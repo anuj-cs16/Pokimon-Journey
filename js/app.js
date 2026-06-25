@@ -9,6 +9,7 @@ import { ScrollManager } from './scroll.js';
 import { PanelManager } from './panels.js';
 import { FriendManager } from './friends.js';
 import { LoaderSequence } from './loader.js';
+import { PokedexManager } from './pokedex.js';
 import { NODES } from './data.js';
 
 class App {
@@ -59,7 +60,10 @@ class App {
     const friendNodes = document.querySelectorAll('.friend-marker');
     this.friends.initInteraction(friendNodes);
 
-    // 6. Bind Global Interactions
+    // 6. Initialize Pokédex
+    this.pokedex = new PokedexManager();
+
+    // 7. Bind Global Interactions
     this.bindEvents();
     this.buildMiniNav();
   }
@@ -104,6 +108,14 @@ class App {
             this.loader.executeClosingSequence();
           }
         });
+      });
+    }
+
+    // Pokédex Button
+    const pokedexBtn = document.getElementById('pokedex-btn');
+    if (pokedexBtn) {
+      pokedexBtn.addEventListener('click', () => {
+        this.pokedex.open();
       });
     }
 

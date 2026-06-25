@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="css/panels.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/loader.css">
+  <link rel="stylesheet" href="css/pokedex.css">
 
   <!-- GSAP (core + ScrollTrigger + ScrollToPlugin — free CDN) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
@@ -125,9 +126,14 @@
 
   <!-- ═══ MAP UI CONTROLS ═══ -->
   <div id="map-ui">
-    <!-- Breadcrumbs -->
-    <div id="breadcrumb-nav">
-      <button class="crumb active" data-target="world">World</button>
+    <!-- Breadcrumbs & Actions -->
+    <div id="top-nav-bar">
+      <div id="breadcrumb-nav">
+        <button class="crumb active" data-target="world">World</button>
+      </div>
+      <button id="pokedex-btn" title="View Ash's Pokédex">
+        <span class="pokedex-icon"></span> Pokédex
+      </button>
     </div>
     
     <!-- Zoom Controls -->
@@ -159,7 +165,42 @@
     <div id="friend-tooltip-content"></div>
   </div>
 
+  <!-- ═══ POKÉDEX OVERLAY ═══ -->
+  <div id="pokedex-overlay" class="hidden">
+    <div class="pokedex-header">
+      <div class="pokedex-header-title">
+        <h2>ASH'S POKÉDEX</h2>
+        <span class="pokedex-count">0 Pokémon Documented</span>
+      </div>
+      <div class="pokedex-controls">
+        <input type="text" id="pokedex-search" placeholder="Search name or move...">
+        <button id="view-toggle" aria-label="Toggle View">List View</button>
+        <button id="pokedex-close" aria-label="Close Pokédex">✕</button>
+      </div>
+    </div>
+    
+    <div class="pokedex-filters sticky">
+      <div class="filter-group" id="filter-region">
+        <!-- Region chips injected here -->
+      </div>
+      <div class="filter-group" id="filter-type">
+        <!-- Type icons injected here -->
+      </div>
+      <div class="filter-group" id="filter-sort">
+        <button id="sort-toggle" class="strongest-first">
+          <span class="sort-icon">↓</span>
+          <span class="sort-text">Strongest First</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="pokedex-content" class="grid-view">
+      <!-- Pokémon cards injected here -->
+    </div>
+  </div>
+
   <!-- ═══ SCRIPTS (ES Modules) ═══ -->
+  <script type="module" src="js/pokedex.js"></script>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
